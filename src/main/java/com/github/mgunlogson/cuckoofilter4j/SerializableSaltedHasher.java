@@ -49,9 +49,9 @@ final class SerializableSaltedHasher<T> implements Serializable {
 	
 	 */
 	private static final long serialVersionUID = 1L;
-	private final long seedNSalt;// provides some protection against collision
+	private long seedNSalt;// provides some protection against collision
 									// attacks
-	private final long addlSipSeed;
+	private long addlSipSeed;
 	private final Algorithm alg;
 	private transient HashFunction hasher;
 	private final Funnel<? super T> funnel;
@@ -82,12 +82,26 @@ final class SerializableSaltedHasher<T> implements Serializable {
 		return new SerializableSaltedHasher<>(seedNSalt, addlSipSeed, funnel, alg);
 	}
 
+    public long getSeedNSalt() {
+        return this.seedNSalt;
+    }
+
+    public long getAddlSipSeed() {
+        return this.addlSipSeed;
+    }
+
 	private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
 		// default deserialization
 		ois.defaultReadObject();
 		// not serializable so we rebuild here
 		hasher = configureHash(alg, seedNSalt, addlSipSeed);
 	}
+
+    public void configureHash(long seedNSalt, long addlSipSeed) {
+        this.seedNSalt = seedNSalt;
+		this.addlSipSeed = addlSipSeed;
+		hasher = configureHash(alg, seedNSalt, addlSipSeed);
+    }
 
 	private static HashFunction configureHash(Algorithm alg, long seedNSalt, long addlSipSeed) {
 		switch (alg) {

@@ -58,7 +58,7 @@ final class BucketAndTag {
 final class IndexTagCalc<T> implements Serializable {
 	private static final long serialVersionUID = -2052598678199099089L;
 
-	private final SerializableSaltedHasher<T> hasher;
+	private SerializableSaltedHasher<T> hasher;
 	private final long numBuckets;
 	private final int tagBits;
 	private final int hashLength;
@@ -89,6 +89,18 @@ final class IndexTagCalc<T> implements Serializable {
 		int hashBitsNeeded = getTotalBitsNeeded(numBuckets, tagBits);
 		return new IndexTagCalc<>(SerializableSaltedHasher.create(hashBitsNeeded, funnel), numBuckets, tagBits);
 	}
+
+    public void configureHash(long seedNSalt, long addlSipSeed) {
+        this.hasher.configureHash(seedNSalt, addlSipSeed);;
+    }
+
+    public long getSeedNSalt() {
+        return this.hasher.getSeedNSalt();
+    }
+
+    public long getAddlSipSeed() {
+        return this.hasher.getAddlSipSeed();
+    }
 
 	long getNumBuckets() {
 		return numBuckets;

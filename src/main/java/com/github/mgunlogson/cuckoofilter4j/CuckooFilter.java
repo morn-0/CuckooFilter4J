@@ -752,6 +752,23 @@ public final class CuckooFilter<T> implements Serializable {
 		}
 	}
 
+    public long[] config() {
+        return new long[] { this.hasher.getSeedNSalt(), this.hasher.getAddlSipSeed(), this.count.get() };
+    }
+
+    public void config(long[] config) {
+        this.hasher.configureHash(config[0], config[1]);
+        this.count.set(config[2]);
+    }
+
+    public long[] bits() {
+        return this.table.getBits();
+    }
+
+    public void bits(long[] bits) {
+        this.table.setBits(bits);
+    }
+
 	private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
 		// default deserialization
 		ois.defaultReadObject();

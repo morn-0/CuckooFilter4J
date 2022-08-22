@@ -33,7 +33,7 @@ final class LongBitSet implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 4332907629892263426L;
-	private final long[] bits; // Array of longs holding the bits
+	private long[] bits; // Array of longs holding the bits
 	private final long numBits; // The number of bits in use
 	private final int numWords; // The exact number of longs needed to hold
 								// numBits (<= bits.length)
@@ -133,6 +133,10 @@ final class LongBitSet implements Serializable {
 	/** Expert. */
 	long[] getBits() {
 		return bits;
+	}
+
+	void setBits(long[] bits) {
+		this.bits = bits;
 	}
 
 	boolean get(long index) {

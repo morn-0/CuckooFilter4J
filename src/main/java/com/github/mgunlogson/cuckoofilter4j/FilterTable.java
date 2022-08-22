@@ -141,6 +141,14 @@ final class FilterTable implements Serializable {
 		return memBlock.length();
 	}
 
+    public long[] getBits() {
+		return this.memBlock.getBits();
+	}
+
+    public void setBits(long[] bits) {
+		this.memBlock.setBits(bits);
+	}
+
 	/**
 	 * Deletes an item from the table if it is found in the bucket
 	 * 
